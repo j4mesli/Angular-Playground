@@ -1,8 +1,12 @@
 <div class="row">
     <div class="col-md-5">
-        <app-recipe-list></app-recipe-list>
+        <!-- we use $event in angular instead of any variable name due to $event containing more than JS Event type, but data emitted from emits as well -->
+        <app-recipe-list (emitSelectedRecipe)="storeSelectedRecipe($event)"></app-recipe-list>
     </div>
     <div class="col-md-7">
-        <app-recipe-detail></app-recipe-detail>
+        <app-recipe-detail *ngIf="selectedRecipe; else recipeNotSelectedError" [recipe]="selectedRecipe"></app-recipe-detail>
+        <ng-template #recipeNotSelectedError>
+            <p>Please select a recipe!</p>
+        </ng-template>
     </div>
 </div>

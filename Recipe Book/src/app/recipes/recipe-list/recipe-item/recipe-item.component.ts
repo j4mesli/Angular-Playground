@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Recipe } from '../../recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./recipe-item.component.css']
 })
 export class RecipeItemComponent {
+  @Input() recipe: Recipe;
+  @Output() recipeSelected = new EventEmitter<void>();
 
+  onSelected = () => {
+    // this emits the empty flag event that triggers an event out of the component
+    this.recipeSelected.emit();
+  }
 }
