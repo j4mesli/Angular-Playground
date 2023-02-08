@@ -1,21 +1,41 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
 import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
-export class RecipeListComponent {
+export class RecipeListComponent implements OnInit, OnDestroy {
   // properties
-  recipes: Recipe[] = [
-    new Recipe('Test Recipe', 'init test recipe', 'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg'), 
-    new Recipe('Another Test Recipe', 'init test recipe 2', 'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg'), 
-  ];
-  @Output() emitSelectedRecipe = new EventEmitter<Recipe>();
+  recipes: Recipe[];
+  recipesArraySubscription: Subscription;
+  
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {  }
 
   // methods
-  onRecipeSelected = (recipe: Recipe) => {
-    this.emitSelectedRecipe.emit(recipe);
+  ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
+    this.recipesArraySubscription = this.recipeService.recipesChanged.subscribe(
+      (recipes: Recipe[]) => {
+        this.recipes = recipes;
+      }
+    );
+  }
+
+  onNewRecipe = () => {
+    // below redirects to new recipe programatically from component
+    this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy(): void {
+      this.recipesArraySubscription.unsubscribe();
   }
 }

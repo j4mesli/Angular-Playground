@@ -7,8 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   loadedFeature: 'recipe' | 'shopping' = 'recipe';
-
-  onNavigate(dir: 'recipe' | 'shopping') {
-    this.loadedFeature = dir;
-  }
 }
