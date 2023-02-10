@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+        <!-- <div class="alert alert-danger" *ngIf="error">
+            <p>{{ error }}</p>
+        </div> -->
+        <!-- below is the replaced version with custom component in Angular -->
+        <!-- <app-alert [message]="error" *ngIf="error" (close)="onHandleError()"></app-alert> -->
+        <ng-template appPlaceholder></ng-template>
+        <div *ngIf="isLoading" style="text-align: center">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+        <form id="auth" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control"
+                    name="email"
+                    ngModel
+                    required
+                    email
+                />
+            </div>
+            <!-- set default password length to 6 -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-control" 
+                    name="password"
+                    ngModel
+                    required
+                    minlength="6"
+                />
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit" form="auth" [disabled]="!authForm.valid" (click)="authForm.valid ? onSubmit(authForm) : ''">{{ isLoginMode ? "Log In" : "Sign Up" }}</button>
+                <hr>
+                <button class="btn btn-primary" type="button" (click)="onSwitchMode()">{{ isLoginMode ? "No account? Sign up here!" : "Already have an account? Log in here!" }}</button>
+            </div>
+        </form>
+    </div>
+</div>

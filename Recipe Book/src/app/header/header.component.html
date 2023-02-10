@@ -9,16 +9,20 @@
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <!-- below is the router section in the header that allows for redirects -->
-                <li routerLinkActive="active"><a style="cursor: pointer;" routerLink="/recipes">Recipes</a></li>
+                <li routerLinkActive="active" *ngIf="isAuthenticated"><a style="cursor: pointer;" routerLink="/recipes">Recipes</a></li>
+                <li routerLinkActive="active" *ngIf="!isAuthenticated"><a style="cursor: pointer;" routerLink="/auth">Authenticate</a></li>
                 <li routerLinkActive="active"><a style="cursor: pointer;" routerLink="/shopping-list">Shopping List</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a style="cursor: pointer;" *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+                </li>
                 <!-- below has directive to open and close dropdown -->
-                <li class="dropdown" appDropdown>
+                <li class="dropdown" appDropdown *ngIf="isAuthenticated">
                     <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a style="cursor: pointer;">Save Data</a></li>
-                        <li><a style="cursor: pointer;">Fetch Data</a></li>
+                        <li><a style="cursor: pointer;" (click)="onSaveData()">Save Data</a></li>
+                        <li><a style="cursor: pointer;" (click)="onFetchData()">Fetch Data</a></li>
                     </ul>
                 </li>
             </ul>

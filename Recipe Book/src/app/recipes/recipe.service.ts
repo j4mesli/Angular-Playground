@@ -16,28 +16,35 @@ export class RecipeService {
 
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'Test Recipe', 
-      'init test recipe', 
-      'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg',
-      [
-        new Ingredient('Meat', 1), 
-        new Ingredient('French Fries', 20), 
-      ]), 
-    new Recipe(
-      'Another Test Recipe', 
-      'init test recipe 2', 
-      'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg',
-      [
-        new Ingredient('Bread', 2), 
-        new Ingredient('Meat', 5), 
-        new Ingredient('Pickles', 2), 
-      ]), 
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'Test Recipe', 
+  //     'init test recipe', 
+  //     'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg',
+  //     [
+  //       new Ingredient('Meat', 1), 
+  //       new Ingredient('French Fries', 20), 
+  //     ]), 
+  //   new Recipe(
+  //     'Another Test Recipe', 
+  //     'init test recipe 2', 
+  //     'https://people.com/thmb/Q1GBj0_zq95hHmypVkxnGUw12sI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(693x0:695x2)/panera-sandwiches-010623-c326f0d822b2440cb74ed9524913ed5e.jpg',
+  //     [
+  //       new Ingredient('Bread', 2), 
+  //       new Ingredient('Meat', 5), 
+  //       new Ingredient('Pickles', 2), 
+  //     ]), 
+  // ];
+  
+  private recipes: Recipe[] = [];
   constructor(
     private SLService: ShoppingListService,
   ) { }
+
+  setRecipes = (recipes: Recipe[]) => {
+    this.recipes = recipes;
+    this.recipesChanged.next(recipes);
+  }
 
   getRecipes = () => {
     // returns a copy of the array instead of the actual array reference, so there is no manipulation of it from outside
